@@ -1,0 +1,48 @@
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  web
+  namespace: mechanoidstore
+  labels: #these labels are deployment labels
+    app:  web
+    project: mechanoidstore
+    tier: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels: #these labels are used to find the pods
+      app:  web
+      project: mechanoidstore
+      tier: web
+  template:
+    metadata:
+      labels: #these are pod labels
+        app:  web
+        project: mechanoidstore
+        tier: web
+    spec:
+      containers:
+      - name: web
+        image:  jashwanth5668/web:v1
+        imagePullPolicy: Always
+        # envFrom:
+        # - configMapRef:
+        #     name:  catalogue
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name:  web
+  namespace: mechanoidstore
+spec:
+  type: LoadBalancer
+  selector:
+    app:  web
+    project: mechanoidstore
+    tier: web
+  ports:
+  - protocol: TCP
+    port:  80 #service port
+    targetPort: 80 #container port

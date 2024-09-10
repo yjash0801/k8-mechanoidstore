@@ -35,7 +35,7 @@ spec:
   selector:
     app:  redis
     project: mechanoidstore
-    tier: app
+    tier: db
   ports:
   - protocol: TCP
     port:  6379 #service port

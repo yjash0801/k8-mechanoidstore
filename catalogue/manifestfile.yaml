@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: catalogue
+  namespace: mechanoidstore
+data:
+  MONGO: true 
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  catalogue
+  namespace: mechanoidstore
+  labels: #these labels are deployment labels
+    app:  catalogue
+    project: mechanoidstore
+    tier: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels: #these labels are used to find the pods
+      app:  catalogue
+      project: mechanoidstore
+      tier: app
+  template:
+    metadata:
+      labels: #these are pod labels
+        app:  catalogue
+        project: mechanoidstore
+        tier: app
+    spec:
+      containers:
+        - name: catalogue
+          image:  jashwanth5668/catalogue:v1
+          imagePullPolicy: Always
+          envFrom:
+          - configMapRef:
+            name:  catalogue
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name:  catalogue
+  namespace: mechanoidstore
+spec:
+  selector:
+    app:  mongodb
+    project: mechanoidstore
+    tier: db
+  ports:
+  - protocol: TCP
+    port:  8080 #service port
+    targetPort: 8080 #container port

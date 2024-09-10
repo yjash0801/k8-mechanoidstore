@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: user
+  namespace: mechanoidstore
+data:
+  MONGO: "true"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  user
+  namespace: mechanoidstore
+  labels: #these labels are deployment labels
+    app:  user
+    project: mechanoidstore
+    tier: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels: #these labels are used to find the pods
+      app:  user
+      project: mechanoidstore
+      tier: app
+  template:
+    metadata:
+      labels: #these are pod labels
+        app:  user
+        project: mechanoidstore
+        tier: app
+    spec:
+      containers:
+      - name: user
+        image:  jashwanth5668/user:v1
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name:  user
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name:  user
+  namespace: mechanoidstore
+spec:
+  selector:
+    app:  user
+    project: mechanoidstore
+    tier: app
+  ports:
+  - protocol: TCP
+    port:  8080 #service port
+    targetPort: 8080 #container port

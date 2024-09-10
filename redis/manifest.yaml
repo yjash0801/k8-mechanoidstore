@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  redis
+  namespace: mechanoidstore
+  labels: #these labels are deployment labels
+    app:  redis
+    project: mechanoidstore
+    tier: db
+spec:
+  replicas: 1
+  selector:
+    matchLabels: #these labels are used to find the pods
+      app:  redis
+      project: mechanoidstore
+      tier: db
+  template:
+    metadata:
+      labels: #these are pod labels
+        app:  redis
+        project: mechanoidstore
+        tier: db
+    spec:
+      containers:
+      - name: redis
+        image: redis
+        imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name:  redis
+  namespace: mechanoidstore
+spec:
+  selector:
+    app:  redis
+    project: mechanoidstore
+    tier: app
+  ports:
+  - protocol: TCP
+    port:  6379 #service port
+    targetPort: 6379 #container port

@@ -44,9 +44,9 @@ metadata:
   namespace: mechanoidstore
 spec:
   selector:
-    app:  mongodb
+    app:  catalogue
     project: mechanoidstore
-    tier: db
+    tier: app
   ports:
   - protocol: TCP
     port:  8080 #service port

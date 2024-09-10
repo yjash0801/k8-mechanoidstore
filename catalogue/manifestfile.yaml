@@ -4,7 +4,7 @@ metadata:
   name: catalogue
   namespace: mechanoidstore
 data:
-  MONGO: true 
+  MONGO: "true"
 ---
 apiVersion: apps/v1
 kind: Deployment

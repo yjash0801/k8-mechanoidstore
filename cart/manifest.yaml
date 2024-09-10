@@ -33,11 +33,11 @@ spec:
     spec:
       containers:
       - name: cart
-        image:  jashwanth5668/cart:v1
+        image: jashwanth5668/cart:v1
         imagePullPolicy: Always
         envFrom:
         - configMapRef:
-            name:  cart
+            name: cart
 ---
 apiVersion: v1
 kind: Service

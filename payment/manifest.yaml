@@ -35,7 +35,7 @@ spec:
       - name: payment
         image: jashwanth5668/payment:v1
         imagePullPolicy: Always
-        evnFrom:
+        envFrom:
         - secretRef:
             name:  payment
 ---

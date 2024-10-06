@@ -60,7 +60,8 @@ def pay(id):
 
     # Check if user exists
     try:
-        req = requests.get(f'http://{USER}:{USER_PORT}/check/{id}')
+        # req = requests.get(f'http://{USER}:{USER_PORT}/check/{id}')
+        req = requests.get(f'http://{USER}:8080/check/{id}')
         if req.status_code == 200:
             anonymous_user = False
     except requests.exceptions.RequestException as err:
